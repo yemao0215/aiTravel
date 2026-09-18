@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>西安5天自驾完整版攻略 | 含里程、车程、游玩耗时</title>
+    <!-- 高德地图JS API，已填入你的key -->
     <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=e967f4196a378dd344445e51087102cd&plugin=AMap.Scale,AMap.ToolBar"></script>
     <style>
         * {
@@ -12,135 +13,225 @@
             box-sizing: border-box;
             font-family: "Microsoft Yahei", system-ui, sans-serif;
         }
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             background-color: #f4f6f8;
             color: #2d3748;
             line-height: 1.85;
             padding-bottom: 60px;
         }
+        /* 顶部导航 */
         .navbar {
-            position: sticky; top: 0; z-index: 99;
-            background: #b81c22; color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background: #b81c22;
+            color: #fff;
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
         .nav-wrap {
-            max-width: 1240px; margin: 0 auto; padding: 14px 20px;
-            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .nav-title { font-size: 20px; font-weight: 600; }
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
         .nav-links a {
-            color: #fff; text-decoration: none; margin-left: 18px;
-            font-size: 14px; opacity: 0.92;
+            color: #fff;
+            text-decoration: none;
+            margin-left: 18px;
+            font-size: 14px;
+            opacity: 0.92;
         }
-        .nav-links a:hover { opacity: 1; text-decoration: underline; }
-        .container { max-width: 1240px; margin: 0 auto; padding: 24px 20px; }
+        .nav-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
         .header {
             background: linear-gradient(135deg,#b81c22,#d63031);
-            color: #fff; text-align: center; padding: 42px 20px;
-            border-radius: 16px; margin-bottom: 28px;
+            color: #fff;
+            text-align: center;
+            padding: 42px 20px;
+            border-radius: 16px;
+            margin-bottom: 28px;
             box-shadow: 0 4px 16px rgba(184,28,34,0.22);
         }
-        .header h1 { font-size: 30px; margin-bottom: 12px; }
-        .header p { font-size: 16px; opacity: 0.9; }
+        .header h1 {
+            font-size: 30px;
+            margin-bottom:12px;
+        }
+        .header p {
+            font-size:16px;
+            opacity:0.9;
+        }
+        /* 地图容器 */
         #map {
-            width: 100%; height: 480px; border-radius: 14px;
-            box-shadow: 0 3px 14px rgba(0,0,0,0.1);
-            margin-bottom: 12px; overflow: hidden;
+            width:100%;
+            height:460px;
+            border-radius:14px;
+            box-shadow:0 3px 14px rgba(0,0,0,0.1);
+            margin-bottom:12px;
+            overflow:hidden;
         }
         .map-legend {
-            display: flex; flex-wrap: wrap; gap: 14px;
-            background: #fff; padding: 12px 18px; border-radius: 10px;
-            margin-bottom: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             font-size: 14px;
         }
-        .map-legend .item { display: flex; align-items: center; gap: 6px; }
-        .map-legend .dot {
-            width: 14px; height: 4px; border-radius: 2px;
-            border-top: 2px dashed; display: inline-block;
+        .map-legend .item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .map-tip { font-size: 14px; color: #666; margin: 0 0 24px 4px; }
+        .map-legend .dot {
+            width: 14px;
+            height: 4px;
+            border-radius: 2px;
+            border-top: 2px dashed;
+            display: inline-block;
+        }
+        .map-tip {
+            font-size:14px;
+            color:#666;
+            margin:-12px 0 24px 4px;
+        }
         .tips-card {
-            background: #fff2f2; border-left: 6px solid #b81c22;
-            padding: 18px 22px; border-radius: 10px; margin-bottom: 30px;
+            background:#fff2f2;
+            border-left:6px solid #b81c22;
+            padding:18px 22px;
+            border-radius:10px;
+            margin-bottom:30px;
         }
         .day-card {
-            background: #fff; border-radius: 16px; padding: 28px;
-            margin-bottom: 28px; box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+            background:#ffffff;
+            border-radius:16px;
+            padding:28px;
+            margin-bottom:28px;
+            box-shadow:0 2px 14px rgba(0,0,0,0.07);
         }
         .day-title {
-            font-size: 22px; color: #b81c22; margin-bottom: 16px;
-            padding-bottom: 12px; border-bottom: 1px solid #eee;
+            font-size:22px;
+            color:#b81c22;
+            margin-bottom:16px;
+            padding-bottom:12px;
+            border-bottom:1px solid #eeeeee;
         }
         .spot-item {
-            padding: 18px 0; border-bottom: 1px dashed #e8e8e8;
+            padding:18px 0;
+            border-bottom:1px dashed #e8e8e8;
         }
-        .spot-item:last-child { border: none; }
+        .spot-item:last-child {
+            border:none;
+        }
         .spot-name {
-            font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #1a202c;
+            font-size:18px;
+            font-weight:600;
+            margin-bottom:10px;
+            color:#1a202c;
         }
-        .spot-info { font-size: 15px; color: #4a5568; line-height: 2; }
-        /* 路线信息样式 */
-        .route-info {
-            margin-top: 12px; padding: 10px 14px;
-            background: #f0f7ff; border-radius: 8px;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 8px; font-size: 14px;
-            border-left: 4px solid #3498db;
+        .spot-info {
+            font-size:15px;
+            color:#4a5568;
+            line-height:2;
         }
-        .route-info .route-text { color: #2c3e50; }
-        .route-info .route-text strong { color: #2980b9; }
-        .nav-btn {
-            display: inline-block; padding: 6px 16px;
-            background: #00a381; color: #fff !important;
-            border-radius: 5px; text-decoration: none; font-size: 13px;
-            transition: background 0.2s; white-space: nowrap;
-        }
-        .nav-btn:hover { background: #008c6d; }
         .summary {
-            background: #f7f9fc; padding: 14px 18px; border-radius: 10px;
-            margin-top: 18px; font-size: 15px;
+            background:#f7f9fc;
+            padding:14px 18px;
+            border-radius:10px;
+            margin-top:18px;
+            font-size:15px;
         }
         table {
-            width: 100%; border-collapse: collapse; margin: 32px 0;
-            background: #fff; border-radius: 14px; overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            width:100%;
+            border-collapse: collapse;
+            margin:32px 0;
+            background:#fff;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 2px 12px rgba(0,0,0,0.07);
         }
-        th, td {
-            padding: 15px 10px; text-align: center; border: 1px solid #efefef;
+        th,td {
+            padding:15px 10px;
+            text-align:center;
+            border:1px solid #efefef;
         }
-        th { background: #b81c22; color: #fff; font-weight: 500; }
-        tr:nth-child(even) { background: #fafbfc; }
-        .notice-title { font-size: 21px; margin: 34px 0 16px; color: #1a202c; }
+        th {
+            background:#b81c22;
+            color:#fff;
+            font-weight:500;
+        }
+        tr:nth-child(even) {
+            background:#fafbfc;
+        }
+        .notice-title {
+            font-size:21px;
+            margin:34px 0 16px;
+            color:#1a202c;
+        }
         .notice-list {
-            background: #fff; border-radius: 14px; padding: 24px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            background:#fff;
+            border-radius:14px;
+            padding:24px;
+            box-shadow:0 2px 12px rgba(0,0,0,0.07);
         }
         .notice-list li {
-            margin: 13px 0; padding-left: 20px; list-style: none; position: relative;
+            margin:13px 0;
+            padding-left:20px;
+            list-style:none;
+            position:relative;
         }
         .notice-list li::before {
-            content: "●"; color: #b81c22; position: absolute; left: 0;
+            content:"●";
+            color:#b81c22;
+            position:absolute;
+            left:0;
         }
-        #back-top {
-            position: fixed; right: 24px; bottom: 30px;
-            width: 44px; height: 44px; border-radius: 50%;
-            background: #b81c22; color: #fff; text-align: center;
-            line-height: 44px; font-size: 18px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            cursor: pointer; z-index: 90;
+        /*回到顶部*/
+        #back-top{
+            position:fixed;
+            right:24px;
+            bottom:30px;
+            width:44px;
+            height:44px;
+            border-radius:50%;
+            background:#b81c22;
+            color:#fff;
+            text-align:center;
+            line-height:44px;
+            font-size:18px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.2);
+            cursor:pointer;
+            z-index:90;
         }
-        @media (max-width: 768px) {
-            .nav-wrap { flex-direction: column; gap: 8px; }
-            #map { height: 340px; }
-            .header h1 { font-size: 24px; }
-            .day-card { padding: 18px; }
-            th, td { padding: 10px 4px; font-size: 13px; }
-            .route-info { flex-direction: column; align-items: flex-start; }
+        @media(max-width:768px){
+            .nav-wrap {flex-direction:column;gap:8px;}
+            #map {height:340px;}
+            .header h1{font-size:24px;}
+            .day-card{padding:18px;}
+            th,td{padding:10px 4px;font-size:13px;}
         }
     </style>
 </head>
 <body>
+    <!--导航栏-->
     <div class="navbar">
         <div class="nav-wrap">
             <div class="nav-title">西安自驾攻略</div>
@@ -161,6 +252,7 @@
             <p>内置导航路线地图｜里程｜车程｜游玩时长｜顺路不绕路</p>
         </div>
 
+        <!--地图容器-->
         <div id="map"></div>
         <div class="map-legend">
             <div class="item"><span class="dot" style="border-color:#e74c3c"></span>Day1 市区线</div>
@@ -169,14 +261,13 @@
             <div class="item"><span class="dot" style="border-color:#9b59b6"></span>Day4 西线</div>
             <div class="item"><span class="dot" style="border-color:#2ecc71"></span>Day5 市区休整</div>
         </div>
-        <div class="map-tip">💡地图：按天绘制自驾虚线路线，点击标记查看景点信息；每个景点下方可一键跳转高德导航</div>
+        <div class="map-tip">💡地图：标记全部景点点位，点击标记查看景点信息；请替换代码中 YOUR_AMAP_KEY 为高德Web端key才可正常加载地图</div>
 
         <div class="tips-card">
             <p><strong>住宿建议：</strong>全程入住西安市区（钟楼/小寨附近），无需频繁换酒店，出行便捷。老城区早晚高峰限行，景区优先停正规停车场。</p>
             <p><strong>出行说明：</strong>东线走连霍高速G30、西线走福银高速G70，节假日临潼、华山高速口易拥堵，建议早7点前出发。</p>
         </div>
 
-        <!-- Day1 -->
         <div class="day-card" id="day1">
             <h2 class="day-title">Day1 市区老城人文线｜城墙‑钟鼓楼‑大雁塔‑大唐不夜城</h2>
             <p style="color:#666;margin-bottom:10px">本日以市区短途行驶+步行为主，无长途高速</p>
@@ -187,10 +278,6 @@
                     <strong>车程：</strong>市区酒店 → 城墙南门，2‑6km，10‑15分钟<br/>
                     <strong>游玩耗时：</strong>2‑2.5小时（可骑行游览，体验最佳）
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>西安市区酒店</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="0" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="spot-item">
@@ -198,10 +285,6 @@
                 <div class="spot-info">
                     <strong>车程：</strong>城墙南门 → 钟鼓楼，2.5km，10分钟<br/>
                     <strong>游玩耗时：</strong>1.5‑2小时，夜景绝美，主打特色小吃打卡
-                </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>西安城墙(永宁门)</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="1" href="#" target="_blank">高德导航</a>
                 </div>
             </div>
 
@@ -211,10 +294,6 @@
                     <strong>车程：</strong>钟鼓楼 → 大雁塔，6km，18分钟<br/>
                     <strong>游玩耗时：</strong>1.5‑2小时，打卡西安地标，观赏音乐喷泉
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>钟鼓楼</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="2" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="spot-item">
@@ -223,10 +302,6 @@
                     <strong>路程：</strong>紧邻大雁塔，步行直达<br/>
                     <strong>游玩耗时：</strong>2‑3小时，灯光璀璨、街头演艺丰富
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>大雁塔-大慈恩寺</strong> → 本站（步行可达）</span>
-                    <a class="nav-btn" data-idx="3" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="summary">
@@ -234,7 +309,6 @@
             </div>
         </div>
 
-        <!-- Day2 -->
         <div class="day-card" id="day2">
             <h2 class="day-title">Day2 临潼东线｜兵马俑 + 华清宫（秦唐文化专线）</h2>
             <p style="color:#666;margin-bottom:10px">全程高速直达，景点顺路不绕路，西安经典必玩线路</p>
@@ -245,10 +319,6 @@
                     <strong>车程：</strong>西安市区 → 兵马俑，42km，50‑60分钟（连霍高速）<br/>
                     <strong>游玩耗时：</strong>3‑3.5小时，建议租讲解器，重点参观铜车马展厅
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>西安市区酒店</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="4" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="spot-item">
@@ -256,10 +326,6 @@
                 <div class="spot-info">
                     <strong>车程：</strong>兵马俑 → 华清宫，6km，10分钟（秦唐大道直达）<br/>
                     <strong>游玩耗时：</strong>2.5‑3小时，可登骊山打卡兵谏亭，晚间可观看《长恨歌》实景演出
-                </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>兵马俑博物馆</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="5" href="#" target="_blank">高德导航</a>
                 </div>
             </div>
 
@@ -269,7 +335,6 @@
             </div>
         </div>
 
-        <!-- Day3 -->
         <div class="day-card" id="day3">
             <h2 class="day-title">Day3 华山一日游｜奇险天下第一山</h2>
             <p style="color:#666;margin-bottom:10px">长途自驾，体力消耗大，建议早起出发，错峰避堵</p>
@@ -281,10 +346,6 @@
                     <strong>建议出发时间：</strong>7:00‑7:30，避开高速早高峰拥堵<br/>
                     <strong>游玩耗时：</strong>6‑8小时，推荐路线：西峰索道上、北峰索道下，省力全覆盖核心景点
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>西安市区酒店</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="6" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="summary">
@@ -292,7 +353,6 @@
             </div>
         </div>
 
-        <!-- Day4 -->
         <div class="day-card" id="day4">
             <h2 class="day-title">Day4 西线文化线｜乾陵 + 法门寺</h2>
             <p style="color:#666;margin-bottom:10px">唐代帝王陵与佛教圣地专线，人文底蕴浓厚</p>
@@ -303,10 +363,6 @@
                     <strong>车程：</strong>西安市区 → 乾陵，80km，1小时（福银高速）<br/>
                     <strong>游玩耗时：</strong>2小时，打卡无字碑、神道石刻，可顺路游览永泰公主墓
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>西安市区酒店</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="7" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="spot-item">
@@ -315,10 +371,6 @@
                     <strong>车程：</strong>乾陵 → 法门寺，48km，50分钟<br/>
                     <strong>游玩耗时：</strong>2.5‑3小时，核心观赏地宫珍宝、释迦牟尼舍利塔
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>乾陵</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="8" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="summary">
@@ -326,7 +378,6 @@
             </div>
         </div>
 
-        <!-- Day5 -->
         <div class="day-card" id="day5">
             <h2 class="day-title">Day5 市区休整补打卡｜陕历博 + 永兴坊</h2>
             <p style="color:#666;margin-bottom:10px">轻松休闲，补齐人文打卡、品尝地道陕味</p>
@@ -337,10 +388,6 @@
                     <strong>车程：</strong>市区酒店 → 陕历博，5‑12km，15‑25分钟<br/>
                     <strong>游玩耗时：</strong>2.5‑3小时，浓缩陕西千年文物精华，<strong>必须提前预约</strong>
                 </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>西安市区酒店</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="9" href="#" target="_blank">高德导航</a>
-                </div>
             </div>
 
             <div class="spot-item">
@@ -348,10 +395,6 @@
                 <div class="spot-info">
                     <strong>车程：</strong>陕历博 → 永兴坊，7km，20分钟<br/>
                     <strong>游玩耗时：</strong>1‑1.5小时，汇集陕西各地特色小吃，可采购伴手礼
-                </div>
-                <div class="route-info">
-                    <span class="route-text">🚗 上一站：<strong>陕西历史博物馆</strong> → 本站</span>
-                    <a class="nav-btn" data-idx="10" href="#" target="_blank">高德导航</a>
                 </div>
             </div>
 
@@ -371,15 +414,60 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><td>西安城墙</td><td>3‑7km</td><td>10‑15分钟</td><td>2‑2.5小时</td></tr>
-                <tr><td>钟鼓楼/回民街</td><td>2‑8km</td><td>10‑20分钟</td><td>1.5‑2小时</td></tr>
-                <tr><td>大雁塔/大唐不夜城</td><td>5‑9km</td><td>15‑20分钟</td><td>3‑4小时</td></tr>
-                <tr><td>秦始皇兵马俑</td><td>42km</td><td>50‑60分钟</td><td>3‑3.5小时</td></tr>
-                <tr><td>华清宫</td><td>48km</td><td>55‑65分钟</td><td>2.5‑3小时</td></tr>
-                <tr><td>华山游客中心</td><td>120km</td><td>2‑2.5小时</td><td>6‑8小时</td></tr>
-                <tr><td>乾陵</td><td>80km</td><td>1小时</td><td>2小时</td></tr>
-                <tr><td>法门寺</td><td>125km</td><td>1小时40分钟</td><td>2.5‑3小时</td></tr>
-                <tr><td>陕西历史博物馆</td><td>4‑10km</td><td>15‑25分钟</td><td>2.5‑3小时</td></tr>
+                <tr>
+                    <td>西安城墙</td>
+                    <td>3‑7km</td>
+                    <td>10‑15分钟</td>
+                    <td>2‑2.5小时</td>
+                </tr>
+                <tr>
+                    <td>钟鼓楼/回民街</td>
+                    <td>2‑8km</td>
+                    <td>10‑20分钟</td>
+                    <td>1.5‑2小时</td>
+                </tr>
+                <tr>
+                    <td>大雁塔/大唐不夜城</td>
+                    <td>5‑9km</td>
+                    <td>15‑20分钟</td>
+                    <td>3‑4小时</td>
+                </tr>
+                <tr>
+                    <td>秦始皇兵马俑</td>
+                    <td>42km</td>
+                    <td>50‑60分钟</td>
+                    <td>3‑3.5小时</td>
+                </tr>
+                <tr>
+                    <td>华清宫</td>
+                    <td>48km</td>
+                    <td>55‑65分钟</td>
+                    <td>2.5‑3小时</td>
+                </tr>
+                <tr>
+                    <td>华山游客中心</td>
+                    <td>120km</td>
+                    <td>2‑2.5小时</td>
+                    <td>6‑8小时</td>
+                </tr>
+                <tr>
+                    <td>乾陵</td>
+                    <td>80km</td>
+                    <td>1小时</td>
+                    <td>2小时</td>
+                </tr>
+                <tr>
+                    <td>法门寺</td>
+                    <td>125km</td>
+                    <td>1小时40分钟</td>
+                    <td>2.5‑3小时</td>
+                </tr>
+                <tr>
+                    <td>陕西历史博物馆</td>
+                    <td>4‑10km</td>
+                    <td>15‑25分钟</td>
+                    <td>2.5‑3小时</td>
+                </tr>
             </tbody>
         </table>
 
@@ -394,128 +482,47 @@
         </div>
     </div>
 
+    <!--回到顶部按钮-->
     <div id="back-top" onclick="window.scrollTo({top:0})">↑</div>
 
     <script>
-        // ========== 每天路线颜色 ==========
-        const dayColors = {
-            1: '#e74c3c',  // 红 - Day1市区
-            2: '#f39c12',  // 橙 - Day2临潼
-            3: '#3498db',  // 蓝 - Day3华山
-            4: '#9b59b6',  // 紫 - Day4西线
-            5: '#2ecc71'   // 绿 - Day5休整
-        };
-
-        // ========== 景点数据（含 day / order，用于按天分组排序绘制路线） ==========
-        // isStart=true 表示每日住宿起点，仅用于路线绘制，不显示标记
+        // ==========高德地图点位数据（经纬度）==========
         const spotList = [
-            // Day1
-            { name: "西安市区酒店", lng: 108.9435, lat: 34.2657, day: 1, order: 0, tip: "每日行程起点", isStart: true },
-            { name: "西安城墙(永宁门)", lng: 108.9463, lat: 34.2622, day: 1, order: 1, tip: "游玩：2-2.5h｜可骑行" },
-            { name: "钟鼓楼", lng: 108.9435, lat: 34.2657, day: 1, order: 2, tip: "游玩：1.5-2h｜夜景推荐" },
-            { name: "大雁塔-大慈恩寺", lng: 108.9515, lat: 34.2187, day: 1, order: 3, tip: "游玩：1.5-2h" },
-            { name: "大唐不夜城", lng: 108.9520, lat: 34.2160, day: 1, order: 4, tip: "游玩：2-3h｜夜游" },
-            // Day2
-            { name: "西安市区酒店", lng: 108.9435, lat: 34.2657, day: 2, order: 0, tip: "每日行程起点", isStart: true },
-            { name: "兵马俑博物馆", lng: 109.2795, lat: 34.3847, day: 2, order: 1, tip: "距市区42km｜游玩3-3.5h" },
-            { name: "华清宫", lng: 109.2198, lat: 34.3743, day: 2, order: 2, tip: "距市区48km｜游玩2.5-3h" },
-            // Day3
-            { name: "西安市区酒店", lng: 108.9435, lat: 34.2657, day: 3, order: 0, tip: "每日行程起点", isStart: true },
-            { name: "华山游客中心", lng: 110.0947, lat: 34.4968, day: 3, order: 1, tip: "距市区120km｜游玩6-8h" },
-            // Day4
-            { name: "西安市区酒店", lng: 108.9435, lat: 34.2657, day: 4, order: 0, tip: "每日行程起点", isStart: true },
-            { name: "乾陵", lng: 108.2283, lat: 34.5826, day: 4, order: 1, tip: "距市区80km｜游玩2h" },
-            { name: "法门寺", lng: 107.9157, lat: 34.4472, day: 4, order: 2, tip: "距市区125km｜游玩2.5-3h" },
-            // Day5
-            { name: "西安市区酒店", lng: 108.9435, lat: 34.2657, day: 5, order: 0, tip: "每日行程起点", isStart: true },
-            { name: "陕西历史博物馆", lng: 108.9488, lat: 34.2236, day: 5, order: 1, tip: "免费需预约｜游玩2.5-3h" },
-            { name: "永兴坊", lng: 108.9554, lat: 34.2740, day: 5, order: 2, tip: "美食街区｜游玩1-1.5h" }
+            {name:"西安城墙(永宁门)",lng:108.9463,lat:34.2622,tip:"游玩：2‑2.5h｜可骑行"},
+            {name:"钟鼓楼",lng:108.9435,lat:34.2657,tip:"游玩：1.5‑2h｜夜景推荐"},
+            {name:"大雁塔‑大慈恩寺",lng:108.9515,lat:34.2187,tip:"游玩：1.5‑2h"},
+            {name:"大唐不夜城",lng:108.9520,lat:34.2160,tip:"游玩：2‑3h｜夜游"},
+            {name:"兵马俑博物馆",lng:109.2795,lat:34.3847,tip:"距市区42km｜游玩3‑3.5h"},
+            {name:"华清宫",lng:109.2198,lat:34.3743,tip:"距市区48km｜游玩2.5‑3h"},
+            {name:"华山游客中心",lng:110.0947,lat:34.4968,tip:"距市区120km｜游玩6‑8h"},
+            {name:"乾陵",lng:108.2283,lat:34.5826,tip:"距市区80km｜游玩2h"},
+            {name:"法门寺",lng:107.9157,lat:34.4472,tip:"距市区125km｜游玩2.5‑3h"},
+            {name:"陕西历史博物馆",lng:108.9488,lat:34.2236,tip:"免费需预约｜游玩2.5‑3h"},
+            {name:"永兴坊",lng:108.9554,lat:34.2740,tip:"美食街区｜游玩1‑1.5h"},
         ];
 
-        // ========== 每个景点的「上一站→本站」导航数据，顺序对应 HTML 中 data-idx ==========
-        const routeData = [
-            { from: { lng: 108.9435, lat: 34.2657, name: "西安市区酒店" },     to: { lng: 108.9463, lat: 34.2622, name: "西安城墙永宁门" } },
-            { from: { lng: 108.9463, lat: 34.2622, name: "西安城墙永宁门" },   to: { lng: 108.9435, lat: 34.2657, name: "钟鼓楼" } },
-            { from: { lng: 108.9435, lat: 34.2657, name: "钟鼓楼" },           to: { lng: 108.9515, lat: 34.2187, name: "大雁塔大慈恩寺" } },
-            { from: { lng: 108.9515, lat: 34.2187, name: "大雁塔大慈恩寺" },   to: { lng: 108.9520, lat: 34.2160, name: "大唐不夜城" } },
-            { from: { lng: 108.9435, lat: 34.2657, name: "西安市区酒店" },     to: { lng: 109.2795, lat: 34.3847, name: "秦始皇兵马俑博物馆" } },
-            { from: { lng: 109.2795, lat: 34.3847, name: "秦始皇兵马俑博物馆" }, to: { lng: 109.2198, lat: 34.3743, name: "华清宫" } },
-            { from: { lng: 108.9435, lat: 34.2657, name: "西安市区酒店" },     to: { lng: 110.0947, lat: 34.4968, name: "华山游客中心" } },
-            { from: { lng: 108.9435, lat: 34.2657, name: "西安市区酒店" },     to: { lng: 108.2283, lat: 34.5826, name: "乾陵" } },
-            { from: { lng: 108.2283, lat: 34.5826, name: "乾陵" },             to: { lng: 107.9157, lat: 34.4472, name: "法门寺" } },
-            { from: { lng: 108.9435, lat: 34.2657, name: "西安市区酒店" },     to: { lng: 108.9488, lat: 34.2236, name: "陕西历史博物馆" } },
-            { from: { lng: 108.9488, lat: 34.2236, name: "陕西历史博物馆" },   to: { lng: 108.9554, lat: 34.2740, name: "永兴坊" } }
-        ];
-
-        // 构建高德 URI Scheme 导航链接
-        function buildNavUrl(route) {
-            const f = `${route.from.lng},${route.from.lat},${encodeURIComponent(route.from.name)}`;
-            const t = `${route.to.lng},${route.to.lat},${encodeURIComponent(route.to.name)}`;
-            return `https://uri.amap.com/navigation?from=${f}&to=${t}&mode=car&policy=1&src=xian-travel&coordinate=gaode&callnative=0`;
-        }
-
-        window.onload = function () {
-            // ===== 1. 给每个「高德导航」按钮绑定跳转链接 =====
-            document.querySelectorAll('.nav-btn').forEach(function (btn) {
-                const idx = parseInt(btn.getAttribute('data-idx'), 10);
-                if (routeData[idx]) {
-                    btn.setAttribute('href', buildNavUrl(routeData[idx]));
-                }
+        window.onload = function(){
+            //初始化地图，中心点西安
+            const map = new AMap.Map("map",{
+                zoom:8.8,
+                center:[108.9398,34.2708],
             });
-
-            // ===== 2. 初始化地图 =====
-            const map = new AMap.Map("map", {
-                zoom: 8.5,
-                center: [108.9398, 34.3408]
-            });
-
-            // 添加比例尺 + 工具条控件
-            map.addControl(new AMap.Scale());
-            map.addControl(new AMap.ToolBar({ position: 'RB' }));
-
-            // ===== 3. 按天分组，绘制虚线自驾路线 =====
-            for (let day = 1; day <= 5; day++) {
-                const daySpots = spotList
-                    .filter(function (s) { return s.day === day; })
-                    .sort(function (a, b) { return a.order - b.order; });
-
-                if (daySpots.length >= 2) {
-                    const path = daySpots.map(function (s) { return [s.lng, s.lat]; });
-                    new AMap.Polyline({
-                        path: path,
-                        strokeColor: dayColors[day],
-                        strokeWeight: 4,
-                        strokeStyle: 'dashed',   // 虚线
-                        strokeDasharray: [10, 8],
-                        lineJoin: 'round',
-                        lineCap: 'round',
-                        map: map
-                    });
-                }
-            }
-
-            // ===== 4. 添加景点标记点（每天不同颜色，起点不显示） =====
-            spotList.forEach(function (s) {
-                if (s.isStart) return;  // 住宿起点只用于路线，不打标记
-                const color = dayColors[s.day];
+            //循环添加标记点+信息弹窗
+            spotList.forEach(s=>{
                 const marker = new AMap.Marker({
-                    position: [s.lng, s.lat],
-                    title: s.name,
-                    offset: new AMap.Pixel(-10, -30),
-                    content: `<div style="background:${color};color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,0.3);border:2px solid #fff;font-weight:600;">D${s.day} ${s.name}</div>`,
-                    map: map
+                    position:[s.lng,s.lat],
+                    title:s.name,
+                    map:map
                 });
                 const infoWin = new AMap.InfoWindow({
-                    content: `<div style="padding:6px 8px;min-width:160px;"><strong style="color:${color};">D${s.day} ${s.name}</strong><br/>${s.tip}</div>`
+                    content:`<div style="padding:4px 6px"><strong>${s.name}</strong><br/>${s.tip}</div>`
                 });
-                marker.on('click', function () {
-                    infoWin.open(map, marker.getPosition());
-                });
-            });
-
-            // 自动缩放视野，覆盖所有标记
+                marker.on("click",()=>{
+                    infoWin.open(map,marker.getPosition());
+                })
+            })
             map.setFitView();
-        };
+        }
     </script>
 </body>
 </html>

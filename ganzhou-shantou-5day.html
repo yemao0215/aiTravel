@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>赣州→汕头 5天沿线攻略 | 公共交通版（D6回深圳）</title>
+<script src="https://webapi.amap.com/maps?v=2.0&key=e967f4196a378dd344445e51087102cd&plugin=AMap.Scale,AMap.ToolBar"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft Yahei",sans-serif}
+html{scroll-behavior:smooth}
+body{background:#f4f6f8;color:#2d3748;line-height:1.85;padding-bottom:60px}
+.navbar{position:sticky;top:0;z-index:99;background:#1a5276;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.nav-wrap{max-width:1240px;margin:0 auto;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.nav-title{font-size:20px;font-weight:600}
+.nav-links a{color:#fff;text-decoration:none;margin-left:12px;font-size:14px;opacity:.92}
+.nav-links a:hover{opacity:1;text-decoration:underline}
+.container{max-width:1240px;margin:0 auto;padding:24px 20px}
+.header{background:linear-gradient(135deg,#1a5276,#2e86c1);color:#fff;text-align:center;padding:42px 20px;border-radius:16px;margin-bottom:28px;box-shadow:0 4px 16px rgba(26,82,118,.25)}
+.header h1{font-size:28px;margin-bottom:12px}
+.header p{font-size:16px;opacity:.9}
+#map{width:100%;height:500px;border-radius:14px;box-shadow:0 3px 14px rgba(0,0,0,.1);margin-bottom:12px;overflow:hidden}
+.map-legend{display:flex;flex-wrap:wrap;gap:12px;background:#fff;padding:12px 18px;border-radius:10px;margin-bottom:28px;box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:13px}
+.map-legend .item{display:flex;align-items:center;gap:6px}
+.map-legend .dot{width:14px;height:4px;border-radius:2px;border-top:2px dashed;display:inline-block}
+.map-tip{font-size:14px;color:#666;margin:0 0 24px 4px}
+.tips-card{background:#eaf2f8;border-left:6px solid #2e86c1;padding:18px 22px;border-radius:10px;margin-bottom:30px}
+.day-card{background:#fff;border-radius:16px;padding:28px;margin-bottom:28px;box-shadow:0 2px 14px rgba(0,0,0,.07)}
+.day-title{font-size:22px;color:#1a5276;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eee}
+.day-badge{display:inline-block;background:#2e86c1;color:#fff;padding:2px 10px;border-radius:12px;font-size:13px;margin-right:8px;vertical-align:middle}
+.spot-item{padding:18px 0;border-bottom:1px dashed #e8e8e8}
+.spot-item:last-child{border:none}
+.spot-name{font-size:18px;font-weight:600;margin-bottom:10px;color:#1a202c}
+.spot-info{font-size:15px;color:#4a5568;line-height:2}
+.route-info{margin-top:12px;padding:10px 14px;background:#eaf2f8;border-radius:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:14px;border-left:4px solid #2e86c1}
+.route-info .route-text strong{color:#1a5276}
+.train-tag{display:inline-block;background:#2e86c1;color:#fff;padding:1px 8px;border-radius:4px;font-size:12px;margin-right:4px}
+.nav-btn{display:inline-block;padding:6px 16px;background:#00a381;color:#fff!important;border-radius:5px;text-decoration:none;font-size:13px;white-space:nowrap}
+.nav-btn:hover{background:#008c6d}
+.summary{background:#f7f9fc;padding:14px 18px;border-radius:10px;margin-top:18px;font-size:15px}
+table{width:100%;border-collapse:collapse;margin:32px 0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+th,td{padding:13px 10px;text-align:center;border:1px solid #efefef}
+th{background:#1a5276;color:#fff;font-weight:500}
+tr:nth-child(even){background:#fafbfc}
+.notice-title{font-size:21px;margin:34px 0 16px;color:#1a202c}
+.notice-list{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.notice-list li{margin:13px 0;padding-left:20px;list-style:none;position:relative}
+.notice-list li::before{content:"●";color:#2e86c1;position:absolute;left:0}
+#back-top{position:fixed;right:24px;bottom:30px;width:44px;height:44px;border-radius:50%;background:#1a5276;color:#fff;text-align:center;line-height:44px;font-size:18px;box-shadow:0 2px 10px rgba(0,0,0,.2);cursor:pointer;z-index:90}
+@media(max-width:768px){.nav-wrap{flex-direction:column;gap:8px}#map{height:360px}.header h1{font-size:22px}.day-card{padding:18px}th,td{padding:9px 4px;font-size:13px}.route-info{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="navbar"><div class="nav-wrap">
+<div class="nav-title">赣粤闽5天攻略</div>
+<div class="nav-links">
+<a href="#map">地图</a><a href="#day1">D1瑞金</a><a href="#day2">D2龙岩漳州</a><a href="#day3">D3厦门</a><a href="#day4">D4潮州汕头</a><a href="#day5">D5返程深圳</a>
+</div></div></div>
+<div class="container">
+<div class="header"><h1>赣州 → 汕头 5天沿线攻略</h1><p>公共交通版｜瑞金·古田·漳州·厦门·潮州·汕头｜第6天回深圳</p></div>
+<div id="map"></div>
+<div class="map-legend">
+<div class="item"><span class="dot" style="border-color:#e74c3c"></span>D1 赣州→瑞金</div>
+<div class="item"><span class="dot" style="border-color:#e67e22"></span>D2 瑞金→古田→漳州</div>
+<div class="item"><span class="dot" style="border-color:#2ecc71"></span>D3 漳州→厦门</div>
+<div class="item"><span class="dot" style="border-color:#3498db"></span>D4 厦门→潮州→汕头</div>
+<div class="item"><span class="dot" style="border-color:#e91e63"></span>D5 汕头→深圳</div>
+</div>
+<div class="map-tip">💡按天绘制跨市铁路虚线；每个景点可一键跳转高德导航</div>
+
+<div class="tips-card">
+<p><b>行程节奏：</b>5天紧凑版，D1-D2红色线，D3-D4闽南+潮汕，D5上午汕头小公园下午回深圳。</p>
+<p><b>返程：</b>D5下午从汕头站/潮汕站乘动车回深圳，约2.5-3小时，二等座约170-190元。</p>
+<p><b>城际高铁合计：</b>约 450 元/人（含返程深圳）。</p>
+</div>
+
+<div class="day-card" id="day1">
+<h2 class="day-title"><span class="day-badge">Day1</span>赣州 → 瑞金｜红色故都</h2>
+<div class="spot-item">
+<div class="spot-name">交通：赣州站 → 瑞金站</div>
+<div class="spot-info"><span class="train-tag">动车</span><b>D3161</b> 07:56赣州→08:55瑞金，59分钟，二等座45元</div>
+<div class="route-info"><span class="route-text">🚄 <b>赣州站</b>→瑞金站</span><a class="nav-btn" data-idx="0" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">1、叶坪革命旧址群(5A)</div>
+<div class="spot-info">瑞金站打车15分钟｜游玩2-2.5h</div>
+<div class="route-info"><span class="route-text">🚄 <b>瑞金站</b>→叶坪</span><a class="nav-btn" data-idx="1" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">2、红景景区(红井)</div>
+<div class="spot-info">叶坪打车10分钟｜游玩1.5h</div>
+<div class="route-info"><span class="route-text">🚄 <b>叶坪</b>→红景</span><a class="nav-btn" data-idx="2" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">3、二苏大景区</div>
+<div class="spot-info">红景打车10分钟｜游玩1h</div>
+<div class="route-info"><span class="route-text">🚄 <b>红景</b>→二苏大</span><a class="nav-btn" data-idx="3" href="#">高德导航</a></div>
+</div>
+<div class="summary"><b>当日：</b>动车59分钟，游玩约5h，住瑞金市区（红都广场附近）</div>
+</div>
+
+<div class="day-card" id="day2">
+<h2 class="day-title"><span class="day-badge">Day2</span>瑞金 → 古田会址 → 漳州</h2>
+<div class="spot-item">
+<div class="spot-name">交通：瑞金站 → 古田会址站</div>
+<div class="spot-info"><span class="train-tag">动车</span>D3161 瑞金08:57→古田会址09:58，约1小时</div>
+<div class="route-info"><span class="route-text">🚄 <b>瑞金站</b>→古田会址站</span><a class="nav-btn" data-idx="4" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">1、古田会议旧址(5A)</div>
+<div class="spot-info">游玩2-2.5h</div>
+<div class="route-info"><span class="route-text">🚄 <b>古田会址站</b>→旧址</span><a class="nav-btn" data-idx="5" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">交通：古田会址站 → 漳州站</div>
+<div class="spot-info"><span class="train-tag">动车</span>约1.5小时（经龙岩），二等座约65元；下午发车</div>
+<div class="route-info"><span class="route-text">🚄 <b>古田旧址</b>→漳州站</span><a class="nav-btn" data-idx="6" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">2、漳州古城（晚饭后散步）</div>
+<div class="spot-info">游玩1.5h，四果汤、手抓面</div>
+<div class="route-info"><span class="route-text">🚄 <b>漳州站</b>→古城</span><a class="nav-btn" data-idx="7" href="#">高德导航</a></div>
+</div>
+<div class="summary"><b>当日：</b>两段动车合计约2.5h，住漳州市区</div>
+</div>
+
+<div class="day-card" id="day3">
+<h2 class="day-title"><span class="day-badge">Day3</span>漳州 → 厦门｜鼓浪屿一日</h2>
+<div class="spot-item">
+<div class="spot-name">交通：漳州站 → 厦门站</div>
+<div class="spot-info"><span class="train-tag">动车</span>20-30分钟，二等座约15元，班次密集</div>
+<div class="route-info"><span class="route-text">🚄 <b>漳州站</b>→厦门站</span><a class="nav-btn" data-idx="8" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">1、鼓浪屿(世界文化遗产)</div>
+<div class="spot-info">船票35-50元，<b>提前"厦门轮渡"公众号预约</b>｜游玩4-5h</div>
+<div class="route-info"><span class="route-text">🚢 <b>厦鼓码头</b>→鼓浪屿</span><a class="nav-btn" data-idx="9" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">2、南普陀寺+厦门大学</div>
+<div class="spot-info">鼓浪屿返回后下午逛，游玩2h｜厦大需预约</div>
+<div class="route-info"><span class="route-text">🚶 <b>鼓浪屿</b>→南普陀</span><a class="nav-btn" data-idx="10" href="#">高德导航</a></div>
+</div>
+<div class="summary"><b>当日：</b>动车20分钟，住厦门岛内（中山路/曾厝垵附近）</div>
+</div>
+
+<div class="day-card" id="day4">
+<h2 class="day-title"><span class="day-badge">Day4</span>厦门 → 潮州 → 汕头</h2>
+<div class="spot-item">
+<div class="spot-name">交通：厦门北 → 潮汕站</div>
+<div class="spot-info"><span class="train-tag">动车</span>1h20m，二等座93元；潮汕站→潮州市区公交40分钟</div>
+<div class="route-info"><span class="route-text">🚄 <b>厦门北</b>→潮汕站</span><a class="nav-btn" data-idx="11" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">1、广济桥+牌坊街（潮州）</div>
+<div class="spot-info">游玩2.5h，牛肉火锅、鸭母捻、咸水粿</div>
+<div class="route-info"><span class="route-text">🚶 <b>潮汕站</b>→广济桥</span><a class="nav-btn" data-idx="12" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">交通：潮汕站 → 汕头站</div>
+<div class="spot-info"><span class="train-tag">动车</span>约25分钟，二等座13元；傍晚出发去汕头</div>
+<div class="route-info"><span class="route-text">🚄 <b>潮州</b>→汕头站</span><a class="nav-btn" data-idx="13" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">2、汕头小公园（夜景）</div>
+<div class="spot-info">游玩1.5h，骑楼夜景、吃牛肉火锅</div>
+<div class="route-info"><span class="route-text">🚄 <b>汕头站</b>→小公园</span><a class="nav-btn" data-idx="14" href="#">高德导航</a></div>
+</div>
+<div class="summary"><b>当日：</b>两段动车合计约1h45m，住汕头市区</div>
+</div>
+
+<div class="day-card" id="day5">
+<h2 class="day-title"><span class="day-badge">Day5</span>汕头 → 深圳（返程）</h2>
+<div class="spot-item">
+<div class="spot-name">1、汕头小公园/老妈宫（上午补逛）</div>
+<div class="spot-info">游玩1.5h，吃早餐、买手信</div>
+<div class="route-info"><span class="route-text">🚶 <b>酒店</b>→小公园</span><a class="nav-btn" data-idx="15" href="#">高德导航</a></div>
+</div>
+<div class="spot-item">
+<div class="spot-name">交通：汕头站 → 深圳（返程）</div>
+<div class="spot-info"><span class="train-tag">动车</span>汕头/潮汕站→深圳北，约2.5-3小时，二等座约170-190元<br/>
+<strong>建议买下午14:00-15:00班次</strong>，傍晚到深圳</div>
+<div class="route-info"><span class="route-text">🚄 <b>汕头</b>→深圳北</span><a class="nav-btn" data-idx="16" href="#">高德导航</a></div>
+</div>
+<div class="summary"><b>当日：</b>上午自由活动，下午动车回深圳，行程结束</div>
+</div>
+
+<h3 class="notice-title">城际交通速查表</h3>
+<table><thead><tr><th>路段</th><th>方式</th><th>历时</th><th>二等座</th><th>推荐</th></tr></thead><tbody>
+<tr><td>赣州→瑞金</td><td>动车</td><td>59分钟</td><td>45元</td><td>D3161 07:56-08:55</td></tr>
+<tr><td>瑞金→古田会址</td><td>动车</td><td>1小时</td><td>约30元</td><td>D3161 08:57-09:58</td></tr>
+<tr><td>古田会址→漳州</td><td>动车</td><td>约1.5h</td><td>约65元</td><td>下午班次</td></tr>
+<tr><td>漳州→厦门</td><td>动车</td><td>20-30分</td><td>约15元</td><td>班次密集</td></tr>
+<tr><td>厦门北→潮汕</td><td>动车</td><td>1h20m</td><td>93元</td><td>每天80+班</td></tr>
+<tr><td>潮汕→汕头</td><td>动车</td><td>25分钟</td><td>13元</td><td>公交化</td></tr>
+<tr><td>汕头→深圳北</td><td>动车</td><td>2.5-3h</td><td>约180元</td><td>下午班次</td></tr>
+</tbody></table>
+
+<h3 class="notice-title">出行提示</h3>
+<div class="notice-list">
+<li><b>联程购票：</b>D3161次赣州→瑞金→古田会址一车直达，买联程票最省事。</li>
+<li><b>古田→漳州：</b>古田会址站下午有动车经龙岩到漳州，12306搜"古田会址→漳州"。</li>
+<li><b>鼓浪屿：</b>提前"厦门轮渡"公众号预约船票，游客走厦鼓码头。</li>
+<li><b>返程票：</b>D5汕头→深圳方向周末紧张，建议提前3天买好下午票。</li>
+<li><b>揭阳：</b>本次5天版未安排揭阳，如想加可D4傍晚潮汕→揭阳22分钟停1h再去汕头。</li>
+<li><b>预算：</b>城际高铁约450元/人，5天含住宿餐饮人均约2000-2800元。</li>
+</div>
+</div>
+<div id="back-top" onclick="window.scrollTo({top:0})">↑</div>
+<script>
+const dayColors={1:'#e74c3c',2:'#e67e22',3:'#2ecc71',4:'#3498db',5:'#e91e63'};
+const spotList=[
+{name:"赣州站",lng:114.9351,lat:25.8311,day:1,order:0,tip:"起点",isStart:true},
+{name:"瑞金站",lng:116.0285,lat:25.8768,day:1,order:1,tip:"59分钟|45元"},
+{name:"叶坪旧址",lng:116.0342,lat:25.8915,day:1,order:2,tip:"2-2.5h"},
+{name:"红景景区",lng:116.0206,lat:25.8825,day:1,order:3,tip:"1.5h"},
+{name:"二苏大",lng:116.0158,lat:25.8795,day:1,order:4,tip:"1h"},
+{name:"古田会址站",lng:116.7486,lat:25.2258,day:2,order:0,tip:"瑞金动车1h"},
+{name:"古田会议旧址",lng:116.7486,lat:25.2258,day:2,order:1,tip:"2-2.5h"},
+{name:"漳州站",lng:117.6552,lat:24.5124,day:2,order:2,tip:"动车1.5h"},
+{name:"漳州古城",lng:117.6552,lat:24.5124,day:2,order:3,tip:"晚饭后1.5h"},
+{name:"厦门站",lng:118.0894,lat:24.4798,day:3,order:0,tip:"20-30分钟"},
+{name:"鼓浪屿",lng:118.0674,lat:24.4475,day:3,order:1,tip:"4-5h"},
+{name:"南普陀寺",lng:118.0858,lat:24.4411,day:3,order:2,tip:"2h"},
+{name:"潮汕站",lng:116.6046,lat:23.6073,day:4,order:0,tip:"1h20m|93元"},
+{name:"潮州广济桥",lng:116.6576,lat:23.6555,day:4,order:1,tip:"2.5h"},
+{name:"汕头站",lng:116.6822,lat:23.3616,day:4,order:2,tip:"动车25分钟|13元"},
+{name:"汕头小公园",lng:116.6752,lat:23.3554,day:4,order:3,tip:"夜景1.5h"},
+{name:"汕头小公园",lng:116.6752,lat:23.3554,day:5,order:0,tip:"上午补逛1.5h"},
+{name:"深圳北站",lng:114.0290,lat:22.6100,day:5,order:1,tip:"动车2.5-3h|约180元"}
+];
+const routeData=[
+{from:{lng:114.9351,lat:25.8311,name:"赣州站"},to:{lng:116.0285,lat:25.8768,name:"瑞金站"}},
+{from:{lng:116.0285,lat:25.8768,name:"瑞金站"},to:{lng:116.0342,lat:25.8915,name:"叶坪旧址"}},
+{from:{lng:116.0342,lat:25.8915,name:"叶坪"},to:{lng:116.0206,lat:25.8825,name:"红景景区"}},
+{from:{lng:116.0206,lat:25.8825,name:"红景"},to:{lng:116.0158,lat:25.8795,name:"二苏大"}},
+{from:{lng:116.0285,lat:25.8768,name:"瑞金站"},to:{lng:116.7486,lat:25.2258,name:"古田会址站"}},
+{from:{lng:116.7486,lat:25.2258,name:"古田会址站"},to:{lng:116.7486,lat:25.2258,name:"古田会议旧址"}},
+{from:{lng:116.7486,lat:25.2258,name:"古田旧址"},to:{lng:117.6552,lat:24.5124,name:"漳州站"}},
+{from:{lng:117.6552,lat:24.5124,name:"漳州站"},to:{lng:117.6552,lat:24.5124,name:"漳州古城"}},
+{from:{lng:117.6552,lat:24.5124,name:"漳州站"},to:{lng:118.0894,lat:24.4798,name:"厦门站"}},
+{from:{lng:118.0894,lat:24.4798,name:"厦门站"},to:{lng:118.0674,lat:24.4475,name:"鼓浪屿"}},
+{from:{lng:118.0674,lat:24.4475,name:"鼓浪屿"},to:{lng:118.0858,lat:24.4411,name:"南普陀"}},
+{from:{lng:118.0894,lat:24.4798,name:"厦门北站"},to:{lng:116.6046,lat:23.6073,name:"潮汕站"}},
+{from:{lng:116.6046,lat:23.6073,name:"潮汕站"},to:{lng:116.6576,lat:23.6555,name:"广济桥"}},
+{from:{lng:116.6576,lat:23.6555,name:"潮州"},to:{lng:116.6822,lat:23.3616,name:"汕头站"}},
+{from:{lng:116.6822,lat:23.3616,name:"汕头站"},to:{lng:116.6752,lat:23.3554,name:"小公园"}},
+{from:{lng:116.6752,lat:23.3554,name:"汕头酒店"},to:{lng:116.6752,lat:23.3554,name:"小公园"}},
+{from:{lng:116.6752,lat:23.3554,name:"汕头"},to:{lng:114.0290,lat:22.6100,name:"深圳北站"}}
+];
+function buildNavUrl(r){
+const f=r.from.lng+","+r.from.lat+","+encodeURIComponent(r.from.name);
+const t=r.to.lng+","+r.to.lat+","+encodeURIComponent(r.to.name);
+return "https://uri.amap.com/navigation?from="+f+"&to="+t+"&mode=car&policy=1&src=gantour5&coordinate=gaode&callnative=0";
+}
+window.onload=function(){
+document.querySelectorAll(".nav-btn").forEach(function(b){
+var i=parseInt(b.getAttribute("data-idx"),10);
+if(routeData[i]) b.setAttribute("href",buildNavUrl(routeData[i]));
+});
+var map=new AMap.Map("map",{zoom:7.4,center:[117.0,24.5]});
+map.addControl(new AMap.Scale());
+map.addControl(new AMap.ToolBar({position:"RB"}));
+for(var d=1;d<=5;d++){
+var arr=spotList.filter(function(s){return s.day===d}).sort(function(a,b){return a.order-b.order});
+if(arr.length>=2){
+new AMap.Polyline({path:arr.map(function(s){return[s.lng,s.lat]}),strokeColor:dayColors[d],strokeWeight:4,strokeStyle:"dashed",strokeDasharray:[10,8],lineJoin:"round",lineCap:"round",map:map});
+}
+}
+spotList.forEach(function(s){
+if(s.isStart&&s.name!=="赣州站")return;
+var c=dayColors[s.day];
+var m=new AMap.Marker({position:[s.lng,s.lat],title:s.name,offset:new AMap.Pixel(-10,-28),content:'<div style="background:'+c+';color:#fff;padding:3px 10px;border-radius:12px;font-size:12px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.3);border:2px solid #fff;font-weight:600;">D'+s.day+' '+s.name+"</div>",map:map});
+var w=new AMap.InfoWindow({content:'<div style="padding:6px 8px;min-width:160px;"><strong style="color:'+c+';">D'+s.day+" "+s.name+"</strong><br/>"+s.tip+"</div>"});
+m.on("click",function(){w.open(map,m.getPosition())});
+});
+map.setFitView();
+};
+</script>
+</body>
+</html>

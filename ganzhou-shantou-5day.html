@@ -37,6 +37,17 @@ body{background:#f4f6f8;color:#2d3748;line-height:1.85;padding-bottom:60px}
 .nav-btn{display:inline-block;padding:6px 16px;background:#00a381;color:#fff!important;border-radius:5px;text-decoration:none;font-size:13px;white-space:nowrap}
 .nav-btn:hover{background:#008c6d}
 .summary{background:#f7f9fc;padding:14px 18px;border-radius:10px;margin-top:18px;font-size:15px}
+/* 住宿推荐 */
+.hotel-box{margin-top:16px;background:#fff8f0;border:1px solid #f5deb3;border-radius:10px;overflow:hidden}
+.hotel-box-title{font-size:15px;font-weight:600;color:#b7791f;padding:10px 16px;background:#fef3e2;border-bottom:1px solid #f5deb3;display:flex;align-items:center;gap:6px}
+.hotel-list{list-style:none}
+.hotel-list li{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-bottom:1px solid #faf0e0;font-size:14px;line-height:1.7}
+.hotel-list li:last-child{border-bottom:none}
+.hotel-list .area{flex-shrink:0;min-width:110px;font-weight:600;color:#92400e}
+.hotel-list .detail{flex:1;color:#4a5568;font-size:13px}
+.hotel-list .price{flex-shrink:0;text-align:right;font-size:13px;white-space:nowrap}
+.hotel-list .price .num{color:#c05621;font-weight:600;font-size:15px}
+.hotel-list .tag-rec{display:inline-block;background:#f6ad55;color:#fff;padding:1px 6px;border-radius:3px;font-size:11px;margin-left:6px;vertical-align:middle}
 /* 交通方式列表 */
 .transit-box{margin-top:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
 .transit-box-title{font-size:14px;font-weight:600;color:#1a5276;padding:8px 14px;background:#eaf2f8;border-bottom:1px solid #e2e8f0}
@@ -144,7 +155,14 @@ tr:nth-child(even){background:#fafbfc}
 </div>
 <div class="route-info"><span class="route-text">🚶 <b>红景</b>→二苏大</span><a class="nav-btn" data-idx="3" href="#">高德导航</a></div>
 </div>
-<div class="summary"><b>当日：</b>动车59分钟，游玩约5h，住瑞金市区（红都广场附近）；瑞金无地铁，公交2元/次，景区间免费接驳最划算</div>
+<div class="summary"><b>当日：</b>动车59分钟，游玩约5h；瑞金无地铁，公交2元/次，景区间免费接驳最划算</div>
+<div class="hotel-box">
+<div class="hotel-box-title">🏨 当晚住宿推荐 · 瑞金</div>
+<ul class="hotel-list">
+<li><span class="area">红都广场片区<span class="tag-rec">首选</span></span><span class="detail">市中心核心商圈，步行可达红色景点，距瑞金站车程约13分钟；连锁酒店密集（全季、7天等），餐饮购物方便</span><span class="price"><span class="num">150-250</span>元/晚</span></li>
+<li><span class="area">景区周边民宿</span><span class="detail">叶坪、红井附近特色民宿，推窗见田园风光，多带小院；适合喜欢安静和拍照的旅客</span><span class="price"><span class="num">200-300</span>元/晚</span></li>
+</ul>
+</div>
 </div>
 
 <!-- ========== Day2 ========== -->
@@ -189,7 +207,14 @@ tr:nth-child(even){background:#fafbfc}
 </div>
 <div class="route-info"><span class="route-text">🚶 <b>漳州站</b>→古城</span><a class="nav-btn" data-idx="7" href="#">高德导航</a></div>
 </div>
-<div class="summary"><b>当日：</b>两段动车合计约2.5h，住漳州市区；漳州无地铁，L1专线仅周末节假日运营，工作日选K1/11路</div>
+<div class="summary"><b>当日：</b>两段动车合计约2.5h；漳州无地铁，L1专线仅周末节假日运营，工作日选K1/11路</div>
+<div class="hotel-box">
+<div class="hotel-box-title">🏨 当晚住宿推荐 · 漳州</div>
+<ul class="hotel-list">
+<li><span class="area">古城/文昌门片区<span class="tag-rec">首选</span></span><span class="detail">步行几分钟到古城核心区，晚上逛吃四果汤、海蛎煎超方便；闽南庭院式民宿、国潮酒店选择多，部分带温泉</span><span class="price"><span class="num">160-250</span>元/晚</span></li>
+<li><span class="area">元光南路/万达片区</span><span class="detail">连锁酒店密集（全季等），设施新、性价比高；距古城打车10分钟，适合对住宿品质有要求的旅客</span><span class="price"><span class="num">200-300</span>元/晚</span></li>
+</ul>
+</div>
 </div>
 
 <!-- ========== Day3 ========== -->
@@ -227,7 +252,15 @@ tr:nth-child(even){background:#fafbfc}
 </div>
 <div class="route-info"><span class="route-text">🚶 <b>鼓浪屿</b>→南普陀</span><a class="nav-btn" data-idx="10" href="#">高德导航</a></div>
 </div>
-<div class="summary"><b>当日：</b>动车20分钟，住厦门岛内（中山路/曾厝垵附近）；厦门有地铁，支付宝搜"鹭鹭行"刷码乘公交地铁</div>
+<div class="summary"><b>当日：</b>动车20分钟；厦门有地铁，支付宝搜"鹭鹭行"刷码乘公交地铁</div>
+<div class="hotel-box">
+<div class="hotel-box-title">🏨 当晚住宿推荐 · 厦门</div>
+<ul class="hotel-list">
+<li><span class="area">中山路/轮渡片区<span class="tag-rec">首选</span></span><span class="detail">距厦鼓码头近，去鼓浪屿最方便；地铁1号线镇海路站可达，周边美食密集、夜生活丰富；经济型到中高端酒店都有</span><span class="price"><span class="num">250-400</span>元/晚</span></li>
+<li><span class="area">曾厝垵/环岛路</span><span class="detail">文艺民宿聚集地，推窗见海、出门踩沙；适合情侣/闺蜜拍照，晚上逛文创小店；但距鼓浪屿码头需打车20分钟</span><span class="price"><span class="num">300-500</span>元/晚</span></li>
+<li><span class="area">厦大/沙坡尾片区</span><span class="detail">艺术氛围浓厚，咖啡馆、独立书店多；步行可达南普陀、厦大；适合喜欢文艺慢生活的旅客</span><span class="price"><span class="num">300-450</span>元/晚</span></li>
+</ul>
+</div>
 </div>
 
 <!-- ========== Day4 ========== -->
@@ -272,7 +305,15 @@ tr:nth-child(even){background:#fafbfc}
 </div>
 <div class="route-info"><span class="route-text">🚶 <b>汕头站</b>→小公园</span><a class="nav-btn" data-idx="14" href="#">高德导航</a></div>
 </div>
-<div class="summary"><b>当日：</b>两段动车合计约1h45m，住汕头市区；潮州/汕头均无地铁，支付宝领当地电子公交卡刷码乘车</div>
+<div class="summary"><b>当日：</b>两段动车合计约1h45m；潮州/汕头均无地铁，支付宝领当地电子公交卡刷码乘车</div>
+<div class="hotel-box">
+<div class="hotel-box-title">🏨 当晚住宿推荐 · 汕头</div>
+<ul class="hotel-list">
+<li><span class="area">小公园/龙眼南路<span class="tag-rec">首选</span></span><span class="detail">90%游客推荐区域，下楼就是小公园骑楼和龙眼南路美食街（牛肉火锅、生腌、甘草水果），夜市营业至凌晨；共享电驴随便逛，距汕头站打车约10分钟</span><span class="price"><span class="num">160-320</span>元/晚</span></li>
+<li><span class="area">万象城/龙眼南路</span><span class="detail">酒店选择多、设施完善，从经济型到中高端都有；靠近汕头站（打车8分钟），交通枢纽，多条公交直达南澳岛、潮州</span><span class="price"><span class="num">200-350</span>元/晚</span></li>
+<li><span class="area">汕头站周边</span><span class="detail">连锁酒店密集，性价比最高；适合第二天一早赶动车返程的旅客，步行可达车站</span><span class="price"><span class="num">140-280</span>元/晚</span></li>
+</ul>
+</div>
 </div>
 
 <!-- ========== Day5 ========== -->
